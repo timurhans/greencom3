@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      text-align :center;
+    }
+
+    td {
+    height: 25px;
+    vertical-align: middle;
+    }
+    </style>
+  </head>
+<body>
+
+<img src="../static/imgs/Logo-Greenish.png" width=100 height=100%>
+<h1>Pedido</h1>
+<h3>Data : {{ data }}</h3>
+
+<p>Observacoes : {{ observacoes }}</p>
+
+{% for instance in object_list %}
+
+
+<p><b>{{ instance.produto.produto }}</b> | Colecao : {{ instance.produto.colecao }}   |    Periodo : {{ instance.periodo }}</p>
+<table class="table table-bordered">
+    <thead class="thead bg-light">
+      <tr>
+        <th scope="col">Cor</th>
+        {% for t in instance.produto.tams %}
+        <td scope="col">{{ t }}</th>
+        {% endfor %}
+        <td scope="col">Qtd</td>
+        <td scope="col">Valor</td>
+      </tr>
+    </thead>
+    <tbody>
+        {% for it in instance.itens %}
+      <tr>
+        <th scope="row">{{ it.cor }}</th>
+        {% for q in it.qtds %}
+        <td> {{ q }} </td>
+        {% endfor %}
+        <td> {{ it.qtd_item }} </td>
+        <td> {{ it.valor_item }} </td>
+      </tr>
+      {% endfor %}
+      <tr>
+        
+        {% for t in instance.produto.tams %}
+        <td scope="col"></th>
+        {% endfor %}
+        <th scope="col">Totais</th>
+        <th scope="col">{{ instance.qtd_tot }}</th>
+        <th scope="col">{{ instance.valor_tot }}</th>
+      </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+{% endfor %}
+
+<h2>Quantidade Total : {{ qtd_total }}</h2>
+<h2>Valor Total : R$ {{ valor_total }}</h2>
+</body>
+</html>

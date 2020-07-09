@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="myfile">
+    <button type="submit">Upload</button>
+  </form>
+
+  {% if novas > 0 or atualizadas > 0 %}
+    <p>Imagens Novas at: <a>{{ novas }}</a></p>
+    <p>Imagens Atualizadas at: <a>{{ atualizadas }}</a></p>
+  {% endif %}
+
+  <!-- {% if atualizadas %}
+  <p>Imagens Novas at: <a>{{ novas }}</a></p>
+  <p>Imagens Atualizadas at: <a>{{ atualizadas }}</a></p>
+  {% endif %} -->
+
+  <p><a href="{% url 'home' %}">Return to home</a></p>
+{% endblock %}
