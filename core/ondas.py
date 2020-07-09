@@ -226,7 +226,7 @@ def produtos_disp(periodo='Imediato'):
     prods['CODIGO_TAB_PRECO'] = prods['CODIGO_TAB_PRECO'].astype(str)
     prods['CODIGO_TAB_PRECO'] = prods['CODIGO_TAB_PRECO'].str.strip()
     
-    if periodo == 'Processo':
+    if periodo == '30dias':
         query_processo = """
             select poc.PRODUTO,poc.COR_PRODUTO,p.SORTIMENTO_COR,
             sum(poc.P1) as P1,sum(poc.P2) as P2,sum(poc.P3) as P3,sum(poc.P4) as P4,sum(poc.P5) as P5,
@@ -383,7 +383,6 @@ def df_tolist(prods):
             p.estoque.append(estq)
         
         
-        
         prod_ant = row['PRODUTO']
 
     lista_produtos = sorted(lista_produtos, key = lambda x: (x.subcategoria, -x.estoque_tot))
@@ -488,7 +487,7 @@ def cats_subcats():
 
 def prods_sem_imagem():
     
-    prods = produtos_disp('Processo')
+    prods = produtos_disp('30dias')
     prods = prods[prods['CODIGO_TAB_PRECO']=='01']
 
     
