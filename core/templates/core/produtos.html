@@ -21,13 +21,12 @@
   <div class="form-group">
     <label for="exampleFormControlSelect1">Periodo</label>
     <select name="periodo" class="form-control" id="exampleFormControlSelect1" onchange="this.form.submit();">
-      {% if selected_periodo == "30dias" %}
-        <option value="Imediato">Imediato</option>
-        <option value="30dias" selected="selected">Até 30 dias</option>
-      {% else %}
-        <option value="Imediato" selected="selected">Imediato</option>
-        <option value="30dias">Até 30 dias</option>
+      <option value="{{ selected_periodo }}"">{{ selected_periodo }}</option>
+      {% for per in periodos %}
+      {% if selected_periodo != per %}
+        <option value="{{ per }}"">{{ per }}</option>
       {% endif %}
+      {% endfor %}
     </select>
   </div>
 </form>
@@ -58,13 +57,13 @@
                     <div class="bg-light">
                       <p>
                         <b>{{ instance.produto }} -</b> <strong class="text-success" > {{ instance.preco }}</strong><br />
-                        <small>{{ instance.sortido }} -</small><small class="text-lowercase"> {{ instance.composicao }} </small>
-                        
+                        <small>{{ instance.sortido }} -</small><small class="text-lowercase"> {{ instance.composicao }} </small><br />
+                        <small>{{ instance.desc_liberacao }} -</small>
                       </p>
                       <p></p>
                     </div>
                     <div class="container-fluid banner">
-                        <img src="{% static instance.url " " %}" width=330 height=100%>
+                        <img src="{{ instance.url }}"  width=330 height=100%>
                     </div>
                     
                       <div class="d-flex justify-content-center">
@@ -88,7 +87,7 @@
                             <form method="post" >{% csrf_token %}
                               <input type="hidden" id="produto" name="produto" value={{instance.produto}}>
                               <div class="container-fluid banner">
-                                <img src="{% static instance.url " " %}" width=330 height=100%>
+                                <img src="{{ instance.url }}" width=330 height=100%>
                               </div>
                               <div class="table-responsive">
                                 <table class="table table-sm">
@@ -101,13 +100,18 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                        {% for estq in instance.estoque %}
+                                      {% for estq in instance.estoque %}
                                       <tr>
-                                        <th scope="row">{{ estq.cor }}</th>
-                                        {% for q in estq.qtds %}
-                                        <td>{{ q }}</br><input value="0" type="number" id="number" name="@{{estq.cor}}@" min="0" max= "{{ q }}" width="3"></td>
-                                        
-                                        {% endfor %}
+                                        <th scope="row">{{ estq.cor }} </br> {{ estq.desc_cor }}</th>
+                                        {% if instance.liberacao %}
+                                          {% for q in estq.qtds %}
+                                          <td><input value="0" type="number" id="number" name="@{{estq.cor}}@" min="0" width="3"></td>
+                                          {% endfor %}                                        
+                                        {% else %}
+                                          {% for q in estq.qtds %}
+                                            <td>{{ q }}</br><input value="0" type="number" id="number" name="@{{estq.cor}}@" min="0" max= "{{ q }}" width="3"></td>
+                                          {% endfor %}
+                                        {% endif %}
                                       </tr>
                                       {% endfor %}
                                     </tbody>
