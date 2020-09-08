@@ -78,6 +78,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ecomb2b.wsgi.application'
 
+DATA_UPLOAD_MAX_MEMORY_SIZE = 26214400
+
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
