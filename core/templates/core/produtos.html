@@ -40,7 +40,7 @@
                       <p></p>
                     </div>
                     <div class="container-fluid banner">
-                        <img src="{% static instance.url " " %}" width=330 height=100%>
+                        <img src="{{ instance.url }}" width=330 height=100%>
                     </div>
                     
                       <div class="d-flex justify-content-center">
@@ -64,7 +64,7 @@
                             <div class="container-fluid banner">
                               <div class="row">
                                 <div class="col-md-4 ml-auto">
-                                  <img src="{% static instance.url " " %}" width=100% height=100%>
+                                  <img src="{{ instance.url }}" width=100% height=100%>
                                 </div>
                                 <div class="col-md-4 ml-auto">
                                   <form method="post" >{% csrf_token %}
