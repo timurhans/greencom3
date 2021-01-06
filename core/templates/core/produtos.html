@@ -4,6 +4,17 @@
 
 {% block content %}
 
+{% if selected_cat == '' %}
+{% for ban in banners %}
+
+<div class="container-fluid banner">
+  <a href="{{ ban.url }}"">
+    <img src="{{ ban.img }}"" width=100% height=100%>
+  </a>
+</div>
+
+{% endfor %}
+{% else %}
 
 <form>
   {% if selected_col %}
@@ -35,21 +46,7 @@
 <h7 class="text-secondary">Página 0 de 0 - 0 produto(s) </h7>
 <hr></hr>
 {% endif %}
-
-{% if selected_cat == '' %}
-{% for ban in banners %}
-
-<div class="container-fluid banner">
-  <a href="{{ ban.url }}"">
-    <img src="{{ ban.img }}"" width=100% height=100%>
-  </a>
-</div>
-
-{% endfor %}
 {% endif %}
-
-
-
 
 <div class='row'>
     {% for instance in page_obj %}
