@@ -92,28 +92,33 @@
                                 <div class="col-md-4 ml-auto">
                                   <form method="post" >{% csrf_token %}
                                     <input type="hidden" id="produto" name="produto" value={{instance.produto}}>
-                                  <div class="table-responsive">
-                                    <table class="table table-sm">
-                                        <thead class="thead bg-light">
-                                          <tr>
-                                            <th scope="col">COR</th>
-                                            {% for t in instance.tams %}
-                                            <th scope="col">{{ t }}</th>
-                                            {% endfor %}
-                                          </tr>
-                                        </thead>
-                                        <tbody>
+                                    <div class="table-responsive">
+                                      <table class="table table-sm">
+                                          <thead class="thead bg-light">
+                                            <tr>
+                                              <th scope="col">COR</th>
+                                              {% for t in instance.tams %}
+                                              <th scope="col">{{ t }}</th>
+                                              {% endfor %}
+                                            </tr>
+                                          </thead>
+                                          <tbody>
                                             {% for estq in instance.estoque %}
-                                          <tr>
-                                            <th scope="row">{{ estq.cor }} - {{ estq.desc_cor }}</th>
-                                            {% for q in estq.qtds %}
-                                            <td>{{ q }}</br><input value="0" type="number" id="number" name="@{{estq.cor}}@" min="0" max= "{{ q }}" width="3"></td>
-                                            
+                                            <tr>
+                                              <th scope="row">{{ estq.cor }} </br> {{ estq.desc_cor }}</th>
+                                              {% if instance.liberacao %}
+                                                {% for q in estq.qtds %}
+                                                <td><input value="0" type="number" id="number" name="@{{estq.cor}}@" min="0" width="3"></td>
+                                                {% endfor %}                                        
+                                              {% else %}
+                                                {% for q in estq.qtds %}
+                                                  <td>{{ q }}</br><input value="0" type="number" id="number" name="@{{estq.cor}}@" min="0" max= "{{ q }}" width="3"></td>
+                                                {% endfor %}
+                                              {% endif %}
+                                            </tr>
                                             {% endfor %}
-                                          </tr>
-                                          {% endfor %}
-                                        </tbody>
-                                    </table>
+                                          </tbody>
+                                      </table>
                                     <input type="submit" value="Adcionar ao carrinho" class="banner bg-success text-white">
                                   </div>
                                   </div>
