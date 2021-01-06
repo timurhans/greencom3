@@ -5,8 +5,6 @@
 {% block content %}
 
 
-
-{% if page_obj %}
 <form>
   {% if selected_col %}
   <input type="hidden" id="colecao" name="colecao" value="{{ selected_col }}">
@@ -30,6 +28,7 @@
     </select>
   </div>
 </form>
+{% if page_obj %}
 <h7 class="text-secondary">Página {{page_obj.number}} de {{qtd_pags}} - {{ qtd_prods }} produto(s) </h7>
 <hr></hr>
 {% else %}
