@@ -32,7 +32,12 @@
 </form>
 <h7 class="text-secondary">Página {{page_obj.number}} de {{qtd_pags}} - {{ qtd_prods }} produto(s) </h7>
 <hr></hr>
-{% elif selected_cat == '' %}
+{% else %}
+<h7 class="text-secondary">Página 0 de 0 - 0 produto(s) </h7>
+<hr></hr>
+{% endif %}
+
+{% if selected_cat == '' %}
 {% for ban in banners %}
 
 <div class="container-fluid banner">
@@ -42,10 +47,8 @@
 </div>
 
 {% endfor %}
-{% else %}
-<h7 class="text-secondary">Página 0 de 0 - 0 produto(s) </h7>
-<hr></hr>
 {% endif %}
+
 
 
 
