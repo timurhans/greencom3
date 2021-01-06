@@ -82,7 +82,7 @@
                                         <tbody>
                                             {% for estq in instance.estoque %}
                                           <tr>
-                                            <th scope="row">{{ estq.cor }}</th>
+                                            <th scope="row">{{ estq.cor }} </br> {{ estq.desc_cor }}</th>
                                             {% for q in estq.qtds %}
                                             <td>{{ q }}</br><input value="0" type="number" id="number" name="@{{estq.cor}}@" min="0" max= "{{ q }}" width="3"></td>
                                             
