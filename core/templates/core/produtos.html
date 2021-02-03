@@ -4,9 +4,18 @@
 
 {% block content %}
 
+{% if selected_cat == '' %}
+{% for ban in banners %}
 
+<div class="container-fluid banner">
+  <a href="{{ ban.url }}"">
+    <img src="{{ ban.img }}"" width=100% height=100%>
+  </a>
+</div>
 
-{% if page_obj %}
+{% endfor %}
+{% else %}
+
 <form>
   {% if selected_col %}
   <input type="hidden" id="colecao" name="colecao" value="{{ selected_col }}">
@@ -21,43 +30,23 @@
   <div class="form-group">
     <label for="exampleFormControlSelect1">Periodo</label>
     <select name="periodo" class="form-control" id="exampleFormControlSelect1" onchange="this.form.submit();">
-<<<<<<< HEAD
-      {% if selected_periodo == "30dias" %}
-        <option value="Imediato">Imediato</option>
-        <option value="30dias" selected="selected">Até 30 dias</option>
-      {% else %}
-        <option value="Imediato" selected="selected">Imediato</option>
-        <option value="30dias">Até 30 dias</option>
-      {% endif %}
-=======
       <option value="{{ selected_periodo }}"">{{ selected_periodo }}</option>
       {% for per in periodos %}
       {% if selected_periodo != per %}
         <option value="{{ per }}"">{{ per }}</option>
       {% endif %}
       {% endfor %}
->>>>>>> 8a45137b9376bd9d457abf976e6a9af0f9dc5c97
     </select>
   </div>
 </form>
+{% if page_obj %}
 <h7 class="text-secondary">Página {{page_obj.number}} de {{qtd_pags}} - {{ qtd_prods }} produto(s) </h7>
 <hr></hr>
-{% elif selected_cat == '' %}
-{% for ban in banners %}
-
-<div class="container-fluid banner">
-  <a href="{{ ban.url }}"">
-    <img src="{{ ban.img }}"" width=100% height=100%>
-  </a>
-</div>
-
-{% endfor %}
 {% else %}
 <h7 class="text-secondary">Página 0 de 0 - 0 produto(s) </h7>
 <hr></hr>
 {% endif %}
-
-
+{% endif %}
 
 <div class='row'>
     {% for instance in page_obj %}
@@ -67,22 +56,13 @@
                     <div class="bg-light">
                       <p>
                         <b>{{ instance.produto }} -</b> <strong class="text-success" > {{ instance.preco }}</strong><br />
-<<<<<<< HEAD
-                        <small>{{ instance.sortido }} -</small><small class="text-lowercase"> {{ instance.composicao }} </small>
-                        
-=======
                         <small>{{ instance.sortido }} -</small><small class="text-lowercase"> {{ instance.composicao }} </small><br />
                         <small>{{ instance.desc_liberacao }} -</small>
->>>>>>> 8a45137b9376bd9d457abf976e6a9af0f9dc5c97
                       </p>
                       <p></p>
                     </div>
                     <div class="container-fluid banner">
-<<<<<<< HEAD
-                        <img src="{% static instance.url " " %}" width=330 height=100%>
-=======
-                        <img src="{{ instance.url }}"  width=330 height=100%>
->>>>>>> 8a45137b9376bd9d457abf976e6a9af0f9dc5c97
+                        <img src="{{ instance.url }}" width=330 height=100%>
                     </div>
                     
                       <div class="d-flex justify-content-center">
@@ -94,7 +74,7 @@
                     
                     <!-- Modal -->
                     <div class="modal" id="X{{ instance.produto_modal }}X" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                      <div class="modal-dialog" role="document">
+                      <div class="modal-dialog-centered" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLongTitle">{{ instance.produto }}</h5>
@@ -103,55 +83,47 @@
                             </button>
                           </div>
                           <div class="modal-body">
-                            <form method="post" >{% csrf_token %}
-                              <input type="hidden" id="produto" name="produto" value={{instance.produto}}>
-                              <div class="container-fluid banner">
-<<<<<<< HEAD
-                                <img src="{% static instance.url " " %}" width=330 height=100%>
-=======
-                                <img src="{{ instance.url }}" width=330 height=100%>
->>>>>>> 8a45137b9376bd9d457abf976e6a9af0f9dc5c97
+                            <div class="container-fluid banner">
+                              <div class="row">
+                                <div class="col-md-4 ml-auto">
+                                  <img src="{{ instance.url }}" width=100% height=100%>
+                                </div>
+                                <div class="col-md-4 ml-auto">
+                                  <form method="post" >{% csrf_token %}
+                                    <input type="hidden" id="produto" name="produto" value={{instance.produto}}>
+                                    <div class="table-responsive">
+                                      <table class="table table-sm">
+                                          <thead class="thead bg-light">
+                                            <tr>
+                                              <th scope="col">COR</th>
+                                              {% for t in instance.tams %}
+                                              <th scope="col">{{ t }}</th>
+                                              {% endfor %}
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            {% for estq in instance.estoque %}
+                                            <tr>
+                                              <th scope="row">{{ estq.cor }} </br> {{ estq.desc_cor }}</th>
+                                              {% if instance.liberacao %}
+                                                {% for q in estq.qtds %}
+                                                <td><input value="0" type="number" id="number" name="@{{estq.cor}}@" min="0" width="3"></td>
+                                                {% endfor %}                                        
+                                              {% else %}
+                                                {% for q in estq.qtds %}
+                                                  <td>{{ q }}</br><input value="0" type="number" id="number" name="@{{estq.cor}}@" min="0" max= "{{ q }}" width="3"></td>
+                                                {% endfor %}
+                                              {% endif %}
+                                            </tr>
+                                            {% endfor %}
+                                          </tbody>
+                                      </table>
+                                    <input type="submit" value="Adcionar ao carrinho" class="banner bg-success text-white">
+                                  </div>
+                                  </div>
+                                </div>
+                                </form>
                               </div>
-                              <div class="table-responsive">
-                                <table class="table table-sm">
-                                    <thead class="thead bg-light">
-                                      <tr>
-                                        <th scope="col">COR</th>
-                                        {% for t in instance.tams %}
-                                        <th scope="col">{{ t }}</th>
-                                        {% endfor %}
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-<<<<<<< HEAD
-                                        {% for estq in instance.estoque %}
-                                      <tr>
-                                        <th scope="row">{{ estq.cor }}</th>
-                                        {% for q in estq.qtds %}
-                                        <td>{{ q }}</br><input value="0" type="number" id="number" name="@{{estq.cor}}@" min="0" max= "{{ q }}" width="3"></td>
-                                        
-                                        {% endfor %}
-=======
-                                      {% for estq in instance.estoque %}
-                                      <tr>
-                                        <th scope="row">{{ estq.cor }} </br> {{ estq.desc_cor }}</th>
-                                        {% if instance.liberacao %}
-                                          {% for q in estq.qtds %}
-                                          <td><input value="0" type="number" id="number" name="@{{estq.cor}}@" min="0" width="3"></td>
-                                          {% endfor %}                                        
-                                        {% else %}
-                                          {% for q in estq.qtds %}
-                                            <td>{{ q }}</br><input value="0" type="number" id="number" name="@{{estq.cor}}@" min="0" max= "{{ q }}" width="3"></td>
-                                          {% endfor %}
-                                        {% endif %}
->>>>>>> 8a45137b9376bd9d457abf976e6a9af0f9dc5c97
-                                      </tr>
-                                      {% endfor %}
-                                    </tbody>
-                                </table>
-                                <input type="submit" value="Adcionar ao carrinho" class="banner bg-success text-white">
-                              </div>
-                            </form>
                           </div>
                         </div>
                       </div>
@@ -230,8 +202,4 @@
 {% endif %}
 {% endif %}
 
-<<<<<<< HEAD
 {% endblock %}
-=======
-{% endblock %}
->>>>>>> 8a45137b9376bd9d457abf976e6a9af0f9dc5c97

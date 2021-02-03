@@ -60,31 +60,11 @@
                             {% for sub in cat.subcats %}
                             <a class="dropdown-item" href="../../?categoria={{ cat.cat }}&subcategoria={{ sub }}">{{ sub }}</a>
                             {% endfor %}
-                        </div> 
+                        </div>
                         {% endfor %}
                     </div>
                   </div>
                   {% for col in colecoes %}
-                    {% if col == 'Varejo' %}
-                    {% if user.is_staff == True %}
-                    <div class="dropdown">
-                      <button class="btn btn-secondary dropdown-toggle bg-light text-success" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          {{ col }}
-                        </button>
-                      
-                      <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
-                          {% for cat in categorias %}
-                          <div class='col my-3'>
-                            <a class="dropdown-header text-success" href="../../?colecao={{ col }}&categoria={{ cat.cat }}">{{ cat.cat }}</a>
-                              {% for sub in cat.subcats %}
-                              <a class="dropdown-item" href="../../?colecao={{ col }}&categoria={{ cat.cat }}&subcategoria={{ sub }}">{{ sub }}</a>
-                              {% endfor %}
-                          </div>
-                          {% endfor %}
-                      </div>
-                    </div>                    
-                    {% endif %}
-                    {% else %}
                     <div class="dropdown">
                       <button class="btn btn-secondary dropdown-toggle bg-light text-success" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           {{ col }}
@@ -101,7 +81,6 @@
                           {% endfor %}
                       </div>
                     </div>
-                    {% endif %}
                   {% endfor %}
                   <li class="nav-item">
                     <a class="nav-link text-success" href="/carrinho/">Carrinho</a>

@@ -9,13 +9,6 @@ from django.core.cache import cache
 from django.template.loader import get_template
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
-#APP IMPORTS
-from .ondas import (Produto,Estoque,cats_subcats,get_produto,prods_sem_imagem,get_produtos)
-from .models import Eventos
-from .forms import LoginForm
-from params.models import (ColecaoB2b,ColecaoErp,Banner)
-# THIRD PARTY IMPORTS
-from xhtml2pdf import pisa
 from django.db.models import Q
 
 #APP IMPORTS
@@ -44,6 +37,7 @@ import ntpath
 
 class Produto():
     pass
+
 class ItemPedido():
     pass
 
@@ -87,15 +81,10 @@ def adciona_carrinho(request,periodo):
             item.cor = cor
             item.qtds = qtds
             item.qtd_item = sum(qtds)
-            item.valor_item = round(item.qtd_item*pedido.produto.preco,2)
+            item.valor_item = round(item.qtd_item*pedido.produto['preco'],2)
             itens.append(item)
     pedido.qtd_tot = qtd_tot
-    pedido.valor_tot = round(qtd_tot*pedido.produto.preco,2)
-    item.valor_item = round(item.qtd_item*pedido.produto['preco'],2)
-    itens.append(item)
-    pedido.qtd_tot = qtd_tot
     pedido.valor_tot = round(qtd_tot*pedido.produto['preco'],2)
-
     if len(itens)>0:
         pedido.itens = itens #qtd pedido
 
@@ -105,8 +94,6 @@ def adciona_carrinho(request,periodo):
             cache.set(session, pedidos, 60*60)
         else:
             pedidos = cache.get(session)
-            if any(x.produto.produto == pedido.produto.produto for x in pedidos):
-                pedidos = [pedido if x.produto.produto == pedido.produto.produto else x for x in pedidos]
             if any(x.produto['produto'] == pedido.produto['produto'] for x in pedidos):
                 pedidos = [pedido if x.produto['produto'] == pedido.produto['produto'] else x for x in pedidos]
             else:
@@ -176,7 +163,6 @@ def produtos(request,path=None):
         else:
             is_paginated = False
 
-        cats = cats_subcats()
         cats = cache.get('cats')
         context = {
         'object_list' : queryset,
@@ -216,7 +202,6 @@ def carrinho_view(request):
         if request.method == 'POST':
 
             if request.POST.get('altera') is not None:
-                adciona_carrinho(request)
                 try:
                     periodo = request.POST.get('periodo')
                 except:
@@ -228,7 +213,6 @@ def carrinho_view(request):
                 produto = request.POST.get('produto')
                 print(produto)
                 pedidos = cache.get(session)
-                pedidos = list(filter(lambda x: x.produto.produto != produto, pedidos))
                 pedidos = list(filter(lambda x: x.produto['produto'] != produto, pedidos))
                 cache.set(session, pedidos, 60*60)
             elif request.POST.get('processa') is not None:
@@ -246,7 +230,6 @@ def carrinho_view(request):
             valor_tot = 0
             qtd_tot = 0
 
-        cats = cats_subcats()
         cats = cache.get('cats')
         context = {
         'object_list' : queryset,
@@ -326,57 +309,6 @@ def login_view(request):
         }
 
         return render(request,"core/login.html",context)
-
-
-
-
-def logout_view(request):
-
-    logout(request)
-    return redirect('home')
-
-
-def upload_img(request):
-
-
-    if request.user.is_superuser:
-        session = request.COOKIES.get('sessionid')
-        dir_imports = 'static/imports/'
-        dir_imports_session = dir_imports + session+'/' #pasta para sessao para nao ter conflito na importacao
-        dir_imgs = 'static/imgs/'
-        if request.method == 'POST':
-            try:
-                myfile = request.FILES['myfile']
-            except:
-                return render(request, 'core/upload.html')
-            fs = FileSystemStorage() 
-            filename = fs.save(dir_imports+myfile.name, myfile) # salva arquivo
-            zip_ref = zipfile.ZipFile(filename)
-            zip_ref.extractall(dir_imports_session) # extrai para pasta da sessao
-            zip_ref.close()
-            os.remove(filename) #exlui arquivo zip
-            fotos = glob.glob(dir_imports_session+'**/*.jpg', recursive=True) # busca todos os arquivos jpg recursivamente
-            cont_novas = 0
-            cont_atualiz = 0
-            for f in fotos:
-                novo_path = dir_imgs+ntpath.basename(f)
-                # novo_path = dir_imgs+os.path.basename(f)
-                # novo_path = dir_imgs+f.rsplit(os.sep,1)[-1]
-                if glob.glob(novo_path):
-                    cont_atualiz = cont_atualiz+1
-                else:
-                    cont_novas = cont_novas+1
-                print(novo_path)
-                os.replace(f, novo_path) # move para a pasta imgs
-
-            shutil.rmtree(dir_imports_session) #exclui pasta sessao
-            return render(request, 'core/upload.html', {
-                'novas': cont_novas,
-                'atualizadas' : cont_atualiz
-            })
-        return render(request, 'core/upload.html')
-    else:
-        return redirect('/login')    
 
 def login_api(request):
     
@@ -479,16 +411,3 @@ def users_log(request):
             return redirect('/login')
     except:
         return redirect('/login')
-
-
-def produtos_sem_imagem_view(request):
-    # Create the HttpResponse object with the appropriate CSV header.
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="prods_sem_img.csv"'
-    prods = prods_sem_imagem()
-    writer = csv.writer(response)
-    writer.writerow(['PRODUTO', 'COLECAO', 'DISP'])
-    for index,row in prods.iterrows():
-        writer.writerow([row['PRODUTO'], row['COLECAO'], row['DISP']])
-
-    return response
