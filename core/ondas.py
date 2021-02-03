@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import pandas as pd
 import pyodbc
 from django.core.cache import cache
@@ -401,7 +400,6 @@ def get_produtos(tabela,colecao,categoria,subcategoria,periodo):
         prods = df_tolist(produtos_disp(periodo))         
         cache.set(key, prods, 60*30)
         print('Banco')
-=======
 from django.core.cache import cache
 from params.models import (ColecaoErp)
 from django.contrib.auth.models import User
@@ -418,7 +416,6 @@ def get_produtos(tabela,colecao,categoria,subcategoria,periodo):
 
     if cache.get(key) is None:
         print('Sem Dados na Cache')
->>>>>>> 8a45137b9376bd9d457abf976e6a9af0f9dc5c97
     else:
         print('Cache')
         prods = cache.get(key)
@@ -426,16 +423,6 @@ def get_produtos(tabela,colecao,categoria,subcategoria,periodo):
     #Busca cols erp vinculadas a colecao b2b selecionada
     if colecao != '':
         cols_erp = list(ColecaoErp.objects.filter(colecaoB2b__title=colecao).values_list('codigo', flat=True).distinct()) 
-<<<<<<< HEAD
-        prods = list(filter(lambda x: x.colecao in cols_erp, prods))
-    
-    if categoria != '':
-        prods = list(filter(lambda x: x.categoria == categoria, prods))
-    if subcategoria != '':
-        prods = list(filter(lambda x: x.subcategoria == subcategoria, prods))
-
-    prods = list(filter(lambda x: x.tabela == tabela, prods))
-=======
         prods = list(filter(lambda x: x['colecao'] in cols_erp, prods))
     
     if categoria != '':
@@ -444,13 +431,11 @@ def get_produtos(tabela,colecao,categoria,subcategoria,periodo):
         prods = list(filter(lambda x: x['subcategoria'] == subcategoria, prods))
 
     prods = list(filter(lambda x: x['tabela'] == tabela, prods))
->>>>>>> 8a45137b9376bd9d457abf976e6a9af0f9dc5c97
 
     return prods
 
 
 def get_produto(produto,tabela,periodo):
-<<<<<<< HEAD
     
     key = 'dados-' + periodo
     print('chave : ' + key)
@@ -460,22 +445,18 @@ def get_produto(produto,tabela,periodo):
         prods = df_tolist(produtos_disp(periodo)) 
         cache.set(key, prods, 60*30)
         print('Banco')
-=======
 
     key = periodo
     print('chave : ' + key)
 
     if cache.get(key) is None:
         print('Sem Dados na Cache')
->>>>>>> 8a45137b9376bd9d457abf976e6a9af0f9dc5c97
     else:
         print('Cache')
         prods = cache.get(key)
 
-<<<<<<< HEAD
-    prods = list(filter(lambda x: x.produto == produto, prods))
-    prods = list(filter(lambda x: x.produto == produto, prods))
-    prods = list(filter(lambda x: x.tabela == tabela, prods))
+    prods = list(filter(lambda x: x['produto'] == produto, prods))
+    prods = list(filter(lambda x: x['tabela'] == tabela, prods))
     prod = prods[0]
 
     return prod
@@ -541,11 +522,8 @@ def prods_sem_imagem():
     
     return prods
 
-=======
     prods = list(filter(lambda x: x['produto'] == produto, prods))
     prods = list(filter(lambda x: x['tabela'] == tabela, prods))
     prod = prods[0]
 
     return prod
- 
->>>>>>> 8a45137b9376bd9d457abf976e6a9af0f9dc5c97
