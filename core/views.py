@@ -378,7 +378,6 @@ def upload_img(request):
     else:
         return redirect('/login')    
 
-=======
 def login_api(request):
     
     print(request.COOKIES)
