@@ -191,7 +191,6 @@ def produtos(request,path=None):
         'qtd_carrinho' : qtd_carrinho,
         'qtd_pags' : qtd_pags,
         'qtd_prods' : qtd_prods,
-        'banners' : banners
         'banners' : banners,
         'periodos' : periodos
         }
