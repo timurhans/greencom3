@@ -91,8 +91,8 @@ def adciona_carrinho(request,periodo):
             itens.append(item)
     pedido.qtd_tot = qtd_tot
     pedido.valor_tot = round(qtd_tot*pedido.produto.preco,2)
-            item.valor_item = round(item.qtd_item*pedido.produto['preco'],2)
-            itens.append(item)
+    item.valor_item = round(item.qtd_item*pedido.produto['preco'],2)
+    itens.append(item)
     pedido.qtd_tot = qtd_tot
     pedido.valor_tot = round(qtd_tot*pedido.produto['preco'],2)
 
