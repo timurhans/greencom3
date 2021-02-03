@@ -17,9 +17,14 @@ from django.contrib import admin
 from django.contrib.auth import views
 from django.urls import path,re_path
 from core.views import (login_view,logout_view,
+<<<<<<< HEAD
+produtos,carrinho_view,generate_PDF,
+produtos_sem_imagem_view,upload_img,limpa_cache,users_log)
+=======
 produtos,carrinho_view,generate_PDF,limpa_cache,
 users_log,login_api,dados_api,params_consulta_api,
 cats_api)
+>>>>>>> 8a45137b9376bd9d457abf976e6a9af0f9dc5c97
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +33,13 @@ urlpatterns = [
     # path('colecao-<str:colecao>/categoria-<str:categoria>/subcategoria-<str:subcategoria>/', product_list_view),
     path('', produtos, name='home'),
     path('login/', login_view,name='login'),
+<<<<<<< HEAD
+    path('accounts/logout/', logout_view), 
+    path('carrinho/', carrinho_view),
+    path('prods_sem_imagem/', produtos_sem_imagem_view),
+    path('carrinho/pedido/', generate_PDF),
+    path('upload/', upload_img),
+=======
     path('login_api/', login_api,name='login_api'),
     path('dados_api/', dados_api),
     path('cats_api/', cats_api),
@@ -35,6 +47,7 @@ urlpatterns = [
     path('accounts/logout/', logout_view), 
     path('carrinho/', carrinho_view),
     path('carrinho/pedido/', generate_PDF),
+>>>>>>> 8a45137b9376bd9d457abf976e6a9af0f9dc5c97
     path('limpa_cache/', limpa_cache),
     path('log/', users_log),
 ]
