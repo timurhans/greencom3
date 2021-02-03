@@ -492,4 +492,3 @@ def produtos_sem_imagem_view(request):
         writer.writerow([row['PRODUTO'], row['COLECAO'], row['DISP']])
 
     return response
-        return redirect('/login')
