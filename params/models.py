@@ -22,9 +22,6 @@ class Banner(models.Model):
     url = models.CharField(max_length=150)
     img = models.ImageField(upload_to = 'static/banners/', null=False, blank=False)
     def __str__(self):
-<<<<<<< HEAD
-        return str(self.url)
-=======
         return str(self.url)
 
 
@@ -35,4 +32,3 @@ class Periodo(models.Model):
     desc_periodo = models.CharField(max_length=150,unique=True)
     def __str__(self):
         return str(self.desc_periodo)
->>>>>>> 8a45137b9376bd9d457abf976e6a9af0f9dc5c97
